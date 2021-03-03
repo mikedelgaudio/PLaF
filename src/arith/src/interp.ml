@@ -1,6 +1,21 @@
 open Ast
 open Ds
 
+
+(* let return: 'a -> 'a result =
+    fun ev ->
+    Ok ev
+
+let error =
+    fun s ->
+    Error s
+
+(* (bind) *)
+let (>>=) : 'a result -> ('a -> 'b result) -> 'b result = fun c f ->
+    match c with
+    | Error s -> Error s
+    | Ok ev -> f ev *)
+
 (** [eval_expr e] evaluates expression [e] *)
 let rec eval_expr : expr -> int result =
   fun e ->
@@ -24,6 +39,9 @@ let rec eval_expr : expr -> int result =
     if m=0
     then error "Division by zero"
     else return (n/m)
+  | Abs(e) ->
+    eval_expr e >>= fun n ->
+    return (abs n)
   | _ -> Error "Not implemented yet!"
 
 
