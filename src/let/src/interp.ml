@@ -2,15 +2,15 @@ open Ast
 open Ds
 
 (** [eval_expr e] evaluates expression [e] *)
-let rec eval_expr : expr -> exp_val ea_result =
-  fun e ->
+let rec eval_expr : expr -> en -> exp_val ea_result =
+  fun e en ->
   match e with
   | Int(n) ->
     return (NumVal n)
   | Var(id) ->
     apply_env id
   | Add(e1,e2) ->
-    eval_expr e1 >>=
+    eval_expr e1 en >>=
     int_of_numVal >>= fun n1 ->
     eval_expr e2 >>=
     int_of_numVal >>= fun n2 ->
@@ -68,6 +68,8 @@ let parse (s:string) : expr =
 let interp (e:string) : exp_val result =
   let c = e |> parse |> eval_expr
   in run c
+
+  (* run takes this c and gives it an environment *)
   
 
 

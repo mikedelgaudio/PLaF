@@ -88,3 +88,6 @@ let string_of_env : string ea_result =
   match env with
   | EmptyEnv -> Ok ">>Environment:\nEmpty"
   | _ -> Ok (">>Environment:\n"^ String.concat ",\n" (string_of_env' [] env))
+
+
+  (* {x:= 7; y = true})
